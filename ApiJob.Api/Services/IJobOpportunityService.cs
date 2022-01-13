@@ -7,8 +7,9 @@ namespace ApiJobUnitests.ApiJob.Api.Services
     public interface IJobOpportunityService
     {
         List<JobOpportunity> JobSearch(JobOpportunity filters);
-        Task Post (JobOpportunity request);
-        Task PostSuscription (User request);
+        Task Post(JobOpportunity request);
+        Task PostSuscription(User request);
         List<User> GetSuscriptionUser();
+        Task<User> GetUserById(int id);
     }
 }

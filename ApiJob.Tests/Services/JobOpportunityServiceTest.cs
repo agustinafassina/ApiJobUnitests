@@ -6,6 +6,7 @@ using NUnit.Framework;
 using ApiUnitest.ApiJob.Api.Repository.Repositories;
 using System.Linq;
 using System.Collections.Generic;
+using FluentAssertions;
 
 namespace ApiJobUnitests.ApiJob.Tests.Services
 {
@@ -29,17 +30,70 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
                 Salary= 15000
             };
 
-            var jobs = CreateJobs().AsQueryable();
+            var users = CreateUsers().AsQueryable();
 
-            _jobOpportunityRepositoryy.Setup(x => x.Post(It.IsAny<JobOpportunity>()))
+            _jobOpportunityRepositoryy.Setup(x => x.PostJobs(It.IsAny<JobOpportunity>()))
                 .Returns(Task.CompletedTask);
 
             _jobOpportunityRepositoryy.Setup(x => x.GetUsersFilter(It.Is<string>(p => p.Equals(job.Name))))
-                .Returns(Task.FromResult<IQueryable<User>>(jobs));
+                .Returns(Task.FromResult<IQueryable<User>>(users));
 
             await _jobOpportunityService.Post(job);
 
             VerifyAll();
+        }
+
+        [Test, Order(2)]
+        public Task GetSuscription_ShouldReturnUserList()
+        {
+            var users = CreateUsers().ToList();
+
+            _jobOpportunityRepositoryy.Setup(x => x.GetUsersList())
+                .Returns(users);
+
+            var result = _jobOpportunityService.GetSuscriptionUser();
+            result.Should().GetType().Equals("List");
+            result.Should().HaveCount(4);
+
+            VerifyAll();
+            return Task.CompletedTask;
+        }
+
+        [Test, Order(3)]
+        public async Task PostSuscription_ShouldReturnOk()
+        {
+            var user = new User {
+                    Id = 1,
+                    UserName = "test01@unitest.com",
+                    InterestPositionsName = "Database Analyst"
+            };
+
+            _jobOpportunityRepositoryy.Setup(x => x.PostUser(user))
+                .Returns(Task.CompletedTask);
+
+            await _jobOpportunityService.PostSuscription(user);
+
+            VerifyAll();
+        }
+
+        [Test, Order(4)]
+        public Task GetUserById_ShouldReturnOneUser()
+        {
+            var user = new User {
+                    Id = 1,
+                    UserName = "test01@unitest.com",
+                    InterestPositionsName = "Database Analyst"
+            };
+
+            _jobOpportunityRepositoryy.Setup(x => x.GetUserById(user.Id))
+                .Returns(Task.FromResult(user));
+
+            var result = _jobOpportunityService.GetUserById(user.Id);
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Task<User>>();
+
+            VerifyAll();
+            return Task.CompletedTask;
         }
 
         private void VerifyAll()
@@ -47,7 +101,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
             _jobOpportunityRepositoryy.VerifyAll();
         }
 
-        private IEnumerable<User> CreateJobs()
+        private IEnumerable<User> CreateUsers()
         {
             return new List<User>{
                 new User {

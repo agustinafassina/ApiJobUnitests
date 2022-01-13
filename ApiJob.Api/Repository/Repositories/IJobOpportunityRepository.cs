@@ -7,10 +7,11 @@ namespace ApiUnitest.ApiJob.Api.Repository.Repositories
 {
     public interface IJobOpportunityRepository
     {
-        Task Post (JobOpportunity job);
+        Task PostJobs (JobOpportunity job);
         Task<IQueryable<User>> GetUsersFilter(string filter);
         List<JobOpportunity> GetJobOpportunitiesList();
         List<User> GetUsersList();
         Task PostUser(User request);
+        Task<User> GetUserById(int id);
     }
 }

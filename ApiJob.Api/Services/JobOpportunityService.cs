@@ -23,7 +23,7 @@ namespace ApiJobUnitests.ApiJob.Api.Services
         public async Task Post(JobOpportunity request)
         {
             try{
-                await _jobOpportunityRepository.Post(request);
+                await _jobOpportunityRepository.PostJobs(request);
                 ValidateUserSuscriptions(request.Name);
             }
             catch(Exception ex)
@@ -149,6 +149,11 @@ namespace ApiJobUnitests.ApiJob.Api.Services
         public List<User> GetSuscriptionUser()
         {
             return _jobOpportunityRepository.GetUsersList();
+        }
+
+        public async Task<User> GetUserById(int id)
+        {
+            return await _jobOpportunityRepository.GetUserById(id);
         }
     }
 }

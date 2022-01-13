@@ -15,7 +15,7 @@ namespace ApiUnitest.ApiJob.Api.Repository.Repositories
             _context = context;
         }
 
-        public async Task Post(JobOpportunity request)
+        public async Task PostJobs(JobOpportunity request)
         {
             try{
                 _context.Add(request);
@@ -52,6 +52,11 @@ namespace ApiUnitest.ApiJob.Api.Repository.Repositories
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public Task<User> GetUserById(int id)
+        {
+            return (Task<User>)_context.Users.Where(x => x.Id == id);
         }
     }
 }
