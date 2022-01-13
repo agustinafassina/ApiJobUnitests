@@ -76,7 +76,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
         }
 
         [Test, Order(4)]
-        public Task GetUserById_ShouldReturnOneUser()
+        public async Task GetUserById_ShouldReturnOneUser()
         {
             var user = new User {
                     Id = 1,
@@ -92,7 +92,6 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
             result.Should().BeOfType<Task<User>>();
 
             VerifyAll();
-            return Task.CompletedTask;
         }
 
         private void VerifyAll()
