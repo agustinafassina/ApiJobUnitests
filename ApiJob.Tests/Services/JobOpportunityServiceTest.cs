@@ -44,7 +44,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
         }
 
         [Test, Order(2)]
-        public Task GetSuscription_ShouldReturnUserList()
+        public async Task GetSuscription_ShouldReturnUserList()
         {
             var users = CreateUsers().ToList();
 
@@ -56,7 +56,6 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
             result.Should().HaveCount(4);
 
             VerifyAll();
-            return Task.CompletedTask;
         }
 
         [Test, Order(3)]
