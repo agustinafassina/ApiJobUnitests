@@ -3,8 +3,6 @@ using ApiJobUnitests.ApiJob.Api.Models;
 using ApiJobUnitests.ApiJob.Api.Services;
 using Moq;
 using NUnit.Framework;
-using System.Threading;
-using ApiJobUnitests.ApiJob.Api.Repository.Context;
 using ApiUnitest.ApiJob.Api.Repository.Repositories;
 using System.Linq;
 using System.Collections.Generic;
