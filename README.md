@@ -13,5 +13,5 @@ dotnet run
 
 The unit tests:
 ```
-cd ApiJob.Api
+cd ApiJob.Tests
 ```
