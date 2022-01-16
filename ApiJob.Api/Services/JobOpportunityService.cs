@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ApiJobUnitests.ApiJob.Api.Models;
 using ApiUnitest.ApiJob.Api.Repository.Repositories;
@@ -81,7 +83,7 @@ namespace ApiJobUnitests.ApiJob.Api.Services
             return listCompleted;
         }
 
-        private List<JobOpportunity> GetJobInternal(JobOpportunity filters)
+        public List<JobOpportunity> GetJobInternal(JobOpportunity filters)
         {
             var jobs = _jobOpportunityRepository.GetJobOpportunitiesList();
 
@@ -154,6 +156,75 @@ namespace ApiJobUnitests.ApiJob.Api.Services
         public async Task<User> GetUserById(int id)
         {
             return await _jobOpportunityRepository.GetUserById(id);
+        }
+
+        public async Task<Stream> GetExportFile()
+        {
+            var users = _jobOpportunityRepository.GetUsersList();
+            string fileName = "test.txt";
+            var byteArray = Encoding.ASCII.GetBytes(fileName);
+            var file = new MemoryStream(byteArray);
+            //file.Close();
+
+            return file;
+        }
+
+        public string GetSuscriptionNow()
+        {
+            var users = _jobOpportunityRepository.GetUsersList();
+
+            if(users.Count > 0)
+            {
+                return "Total users: " + users.Count;
+            }
+
+            return "There are no users.";
+        }
+
+        public Task<int> GetSumValueAndTotal(int value)
+        {
+            return Task.FromResult(1500 + value);
+        }
+
+        public int GetSumValueOneAndValueTwo(int value1, int value2)
+        {
+            return value1 + value2;
+        }
+
+        public int GetSumValue1Value2Value3Value4(int value1, int value2,int value3, int value4)
+        {
+            return value1 + value2 + value3 + value4;
+        }
+
+        public string BodyEmailHtml(User user, string position)
+        {
+            return "<html><body><h2>Hi " + user.UserName + ".</h2><br><h3>New Job about: " + position + ". </h3><br>. <h3>To unsubscribe click here <a href=''>link</a> </h3></body></html>";
+        }
+
+        public async Task<StreamWriter> CreateFile(string fileName)
+        {
+            string rutaCompleta = @".\Files\" + fileName;
+            string text = "test 01 writee....";
+
+            StreamWriter file = new StreamWriter(rutaCompleta, true);
+            file.WriteLine(text);
+
+            return file;
+        }
+
+        public bool ReturnBool(int age)
+        {
+            return age > 15;
+        }
+
+        public IEnumerable<User> ReturnListUser()
+        {
+            return GetSuscriptionUser();
+        }
+
+        public Task DeleteUser(User request)
+        {
+            return _jobOpportunityRepository.DeleteUser(request);
         }
     }
 }

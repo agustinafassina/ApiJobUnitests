@@ -13,5 +13,6 @@ namespace ApiUnitest.ApiJob.Api.Repository.Repositories
         List<User> GetUsersList();
         Task PostUser(User request);
         Task<User> GetUserById(int id);
+        Task DeleteUser(User request);
     }
 }

@@ -58,5 +58,17 @@ namespace ApiUnitest.ApiJob.Api.Repository.Repositories
         {
             return (Task<User>)_context.Users.Where(x => x.Id == id);
         }
+
+        public async Task DeleteUser(User request)
+        {
+            try{
+                _context.Remove(request);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
