@@ -14,11 +14,11 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
     public class JobOpportunityServiceTest
     {
         private readonly IJobOpportunityService _jobOpportunityService;
-        private readonly Mock<IJobOpportunityRepository> _jobOpportunityRepositoryy;
+        private readonly Mock<IJobOpportunityRepository> _jobOpportunityRepository;
         public JobOpportunityServiceTest()
         {
-            _jobOpportunityRepositoryy = new Mock<IJobOpportunityRepository>(MockBehavior.Strict);
-            _jobOpportunityService = new JobOpportunityService(_jobOpportunityRepositoryy.Object);
+            _jobOpportunityRepository = new Mock<IJobOpportunityRepository>(MockBehavior.Strict);
+            _jobOpportunityService = new JobOpportunityService(_jobOpportunityRepository.Object);
         }
 
         [Test, Order(1)]
@@ -33,10 +33,10 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
 
             var users = CreateUsers().AsQueryable();
 
-            _jobOpportunityRepositoryy.Setup(x => x.PostJobs(It.IsAny<JobOpportunity>()))
+            _jobOpportunityRepository.Setup(x => x.PostJobs(It.IsAny<JobOpportunity>()))
                 .Returns(Task.CompletedTask);
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetUsersFilter(It.Is<string>(p => p.Equals(job.Name))))
+            _jobOpportunityRepository.Setup(x => x.GetUsersFilter(It.Is<string>(p => p.Equals(job.Name))))
                 .Returns(Task.FromResult<IQueryable<User>>(users));
 
             await _jobOpportunityService.Post(job);
@@ -49,7 +49,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
         {
             var users = CreateUsers().ToList();
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetUsersList())
+            _jobOpportunityRepository.Setup(x => x.GetUsersList())
                 .Returns(users);
 
             var result = _jobOpportunityService.GetSuscriptionUser();
@@ -67,7 +67,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
                     InterestPositionsName = "Database Analyst"
             };
 
-            _jobOpportunityRepositoryy.Setup(x => x.PostUser(user))
+            _jobOpportunityRepository.Setup(x => x.PostUser(user))
                 .Returns(Task.CompletedTask);
 
             await _jobOpportunityService.PostSuscription(user);
@@ -84,7 +84,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
                     InterestPositionsName = "Database Analyst"
             };
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetUserById(user.Id))
+            _jobOpportunityRepository.Setup(x => x.GetUserById(user.Id))
                 .Returns(Task.FromResult(user));
 
             var result = _jobOpportunityService.GetUserById(user.Id);
@@ -99,7 +99,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
         {
             var users = CreateUsers().ToList();
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetUsersList())
+            _jobOpportunityRepository.Setup(x => x.GetUsersList())
                 .Returns(users);
 
             var result = _jobOpportunityService.GetExportFile();
@@ -118,7 +118,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
         {
             var users = CreateUsers().ToList();
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetUsersList())
+            _jobOpportunityRepository.Setup(x => x.GetUsersList())
                 .Returns(users);
 
             var result = _jobOpportunityService.GetSuscriptionNow();
@@ -181,7 +181,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
 
             var jobs = CreateJobs().ToList();
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetJobOpportunitiesList())
+            _jobOpportunityRepository.Setup(x => x.GetJobOpportunitiesList())
                 .Returns(jobs);
 
             var result = _jobOpportunityService.GetJobInternal(searchJob);
@@ -235,7 +235,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
         {
             var users = CreateUsers().ToList();
 
-            _jobOpportunityRepositoryy.Setup(x => x.GetUsersList())
+            _jobOpportunityRepository.Setup(x => x.GetUsersList())
                 .Returns(users);
 
             var result = _jobOpportunityService.ReturnListUser();
@@ -254,7 +254,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
                     InterestPositionsName = "Database Analyst"
             };
 
-            _jobOpportunityRepositoryy.Setup(x => x.DeleteUser(user))
+            _jobOpportunityRepository.Setup(x => x.DeleteUser(user))
                 .Returns(Task.CompletedTask);
 
             await _jobOpportunityService.DeleteUser(user);
@@ -264,7 +264,7 @@ namespace ApiJobUnitests.ApiJob.Tests.Services
 
         private void VerifyAll()
         {
-            _jobOpportunityRepositoryy.VerifyAll();
+            _jobOpportunityRepository.VerifyAll();
         }
 
         private IEnumerable<User> CreateUsers()

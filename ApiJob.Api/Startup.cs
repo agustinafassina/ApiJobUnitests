@@ -34,6 +34,7 @@ namespace ApiJobUnitests.ApiJob.Api
             services.AddTransient<IJobOpportunityRepository, JobOpportunityRepository>();
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<ICountryService, CountryService>();
+            services.AddTransient<IFileService, FileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

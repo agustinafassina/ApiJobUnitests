@@ -7,7 +7,6 @@ using ApiUnitest.ApiJob.Api.Repository.Repositories;
 using System.Linq;
 using System.Collections.Generic;
 using FluentAssertions;
-using System.IO;
 
 namespace ApiJobUnitests.ApiJob.Tests.Services
 {
